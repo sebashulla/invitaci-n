@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Invitación Cumpleaños ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #ffe7f1 0%, #d9f3f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin: 0;
+            line-height: 1.5;
+            color: #1e2b2f;
+            transition: background 0.3s ease;
+        }
+
+        body.disco-mode {
+            animation: discoLights 8s infinite alternate;
+        }
+
+        @keyframes discoLights {
+            0% { background: #ffb3ba; }  
+            25% { background: #c5e0b4; } 
+            50% { background: #ffdac1; } 
+            75% { background: #b5e4f0; } 
+            100% { background: #f9c7d3; } 
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 30px 60px -15px rgba(30, 60, 50, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message {
+            font-size: 1.6rem;
+            font-weight: 300;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 2.5rem 2.8rem;
+            border-radius: 40px;
+            margin-bottom: 2.5rem;
+            color: #1e3b41;
+            box-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.9), 0 10px 20px rgba(0, 30, 20, 0.1);
+            white-space: pre-line;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .message p {
+            margin-bottom: 1.2rem;
+        }
+
+        .message p:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            color: #1f3a3f;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .btn {
+            background: white;
+            border: none;
+            border-radius: 60px;
+            padding: 1rem 2.8rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e3b41;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 10px 20px -8px #2c7a6e;
+            border: 1px solid rgba(150, 200, 190, 0.6);
+            display: inline-block;
+            min-width: 180px;
+        }
+
+        .btn:hover {
+            background: #f0fdfa;
+            transform: scale(1.02);
+            box-shadow: 0 16px 28px -10px #1b6b5e;
+            border-color: #8fc5ba;
+        }
+
+        .btn.si {
+            background: #b8e2d8;
+            border-color: #6fa99c;
+            color: #0f3d37;
+            margin-right: 1rem;
+        }
+
+        .btn.si:hover {
+            background: #a3d6ca;
+        }
+
+        .btn.no {
+            background: #ffe2de;
+            border-color: #f3aea6;
+            color: #772e25;
+        }
+
+        .btn.no:hover {
+            background: #ffd2cc;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+        }
+
+        .invitation-details {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 36px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            text-align: left;
+            border: 1px solid #cceae3;
+            font-size: 1.2rem;
+        }
+
+        .invitation-details p {
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .invitation-details strong {
+            font-weight: 700;
+            color: #1d5b4f;
+            min-width: 130px;
+        }
+
+        .invitation-details .highlight {
+            background: #fceae3;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        .map-container {
+            width: 100%;
+            margin: 2rem 0 0.5rem;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 15px 25px -10px rgba(20, 70, 50, 0.3);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+            border: 0;
+            display: block;
+        }
+
+        .reset {
+            background: #f2e7fe;
+            border-color: #cdb5e8;
+            color: #4a2d70;
+            font-size: 1.1rem;
+            padding: 0.8rem 2.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .reset:hover {
+            background: #e6d4fc;
+        }
+
+        .heart {
+            color: #e66f7d;
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            h2 {
+                font-size: 1.9rem;
+            }
+            .message {
+                font-size: 1.3rem;
+                padding: 1.8rem;
+            }
+            .btn {
+                padding: 0.9rem 2rem;
+                font-size: 1.2rem;
+                min-width: 150px;
+            }
+            .invitation-details p {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            .invitation-details strong {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="cancionFondo" loop preload="auto">
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <div id="step1" class="card">
+            <div class="message">
+                <p>Buenoo, si estas leyendo esto es porque te considero una gran amistad y la verdad es que me encantaria que vinieras a mi cumpleaños.</p>
+                <p>Aprecio y valoro mucho los momentos que compartimos sin importar el tiempo o lugar, las emociones que se vivieron fueron unicas e irrepetibles.</p>
+                <p>Muchas gracias por ser parte de mi vida <span class="heart">❤️</span></p>
+            </div>
+            <div style="text-align: center;">
+                <button id="nextBtn" class="btn">Siguiente</button>
+            </div>
+        </div>
+
+        <div id="step2" class="card hidden">
+            <h2> Y ahora, la pregunta más importante del año... </h2>
+            <p style="font-size: 2rem; text-align: center; margin-bottom: 1rem;"> ¿¡TE APUNTAS A MI FIESTA!? 🎉</p>
+            <div class="button-group">
+                <button id="siBtn" class="btn si">¡Sí, allá voy!</button>
+                <button id="noBtn" class="btn no">No podré :(</button>
+            </div>
+        </div>
+
+        <div id="step3a" class="card hidden">
+            <h2> ¡Perfecto, muchísimas gracias! </h2>
+            <div class="invitation-details">
+                <p><strong>📅 Día:</strong> <span class="highlight">Viernes 27 de febrero</span> · 6:00 pm</p>
+                <p><strong>📍 Lugar:</strong> Mi casa - AHH Santa Maria Mz L Lote 8 <br> <span style="margin-left: 2.5rem;">(Referencia: Por el comedor- Pasaje 11)</span></p>
+                <p><strong>🎉 Qué habrá:</strong> Comida rica, baile, karaoke, luces, hora loca, rap, y talvez juegos de mesa 👀</p>
+                <p><strong>🚫 Sin alcohol:</strong> Pero con muchas gaseosas, jugos y un pastel increíble 🍰</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d410.1455542087883!2d-76.92464772011324!3d-12.044615488501513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2spe!4v1771964979243!5m2!1ses!2spe" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 1.2rem; text-align: center; background: #f6d5f7; padding: 0.8rem; border-radius: 40px;">⭐ ¡Te espero para brillar juntos! ⭐</p>
+            </div>
+            <div style="text-align: center;">
+                <button id="resetFromSi" class="btn reset">← Volver al inicio</button>
+            </div>
+        </div>
+
+        <div id="step3b" class="card hidden">
+            <div class="message" style="text-align: center;">
+                <p>🌷 Bueno, igualmente muchas gracias por tu tiempo,</p>
+                <p>pero por si cambias de opinión te estaré esperando...!!</p>
+                <p style="font-size: 3rem; margin-top: 1rem;">🤗</p>
+            </div>
+            <div style="text-align: center;">
+                <button id="backFromNo" class="btn reset">← Volver</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3a = document.getElementById('step3a');
+            const step3b = document.getElementById('step3b');
+
+            const nextBtn = document.getElementById('nextBtn');
+            const siBtn = document.getElementById('siBtn');
+            const noBtn = document.getElementById('noBtn');
+            const backFromNo = document.getElementById('backFromNo');
+            const resetFromSi = document.getElementById('resetFromSi');
+
+            const cancion = document.getElementById('cancionFondo');
+
+            let confetiInterval = null;
+            let brillitosInterval = null; 
+            let discoActivo = false;
+
+            function showStep(stepToShow) {
+                step1.classList.add('hidden');
+                step2.classList.add('hidden');
+                step3a.classList.add('hidden');
+                step3b.classList.add('hidden');
+                stepToShow.classList.remove('hidden');
+
+                if (stepToShow !== step3a) {
+                    detenerTodo();
+                } else {
+                }
+            }
+
+            function detenerTodo() {
+                if (!cancion.paused) {
+                    cancion.pause();
+                    cancion.currentTime = 0;
+                }
+                if (confetiInterval) {
+                    clearInterval(confetiInterval);
+                    confetiInterval = null;
+                }
+                if (brillitosInterval) {
+                    clearInterval(brillitosInterval);
+                    brillitosInterval = null;
+                }
+                document.body.classList.remove('disco-mode');
+                discoActivo = false;
+            }
+
+            function lanzarConfetiAleatorio() {
+                confetti({
+                    particleCount: 15 + Math.floor(Math.random() * 30),
+                    spread: 50 + Math.random() * 70,
+                    origin: { x: Math.random(), y: Math.random() * 0.6 },
+                    colors: ['#ff8a9f', '#f9d77e', '#a1de93', '#89c9ff', '#d7b1f0'],
+                    startVelocity: 20 + Math.random() * 20,
+                    decay: 0.9,
+                });
+            }
+
+            function lanzarBrillito() {
+                const colores = ['#f9d9e1', '#fae1b0', '#c1e4d8', '#d3c6f0', '#f9c7d3', '#b0e0e6', '#fff6b0'];
+                confetti({
+                    particleCount: 3 + Math.floor(Math.random() * 6),
+                    angle: 70 + Math.random() * 40,
+                    spread: 55 + Math.random() * 60,
+                    startVelocity: 25 + Math.random() * 30,
+                    origin: { x: Math.random(), y: 0.9 + Math.random() * 0.1 },
+                    colors: [colores[Math.floor(Math.random() * colores.length)]],
+                    shapes: ['star'],
+                    ticks: 200
+                });
+            }
+
+            function iniciarFestejo() {
+                detenerTodo(); 
+
+                document.body.classList.add('disco-mode');
+                discoActivo = true;
+
+                cancion.play().catch(error => {
+                    console.log('No se pudo reproducir automáticamente. El usuario debe interactuar primero.');
+                });
+
+                confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+                confetti({ particleCount: 180, spread: 120, origin: { y: 0.5, x: 0.2 }, startVelocity: 30 });
+                confetti({ particleCount: 180, spread: 120, origin: { y: 0.5, x: 0.8 }, startVelocity: 30 });
+
+                confetiInterval = setInterval(() => {
+                    lanzarConfetiAleatorio();
+                }, 800); // cada 0.8 segundos
+
+                brillitosInterval = setInterval(() => {
+                    lanzarBrillito();
+                }, 600);
+            }
+
+            nextBtn.addEventListener('click', () => {
+                showStep(step2);
+            });
+
+            siBtn.addEventListener('click', () => {
+                iniciarFestejo();
+                showStep(step3a);
+            });
+
+            noBtn.addEventListener('click', () => {
+                detenerTodo();
+                showStep(step3b);
+            });
+
+            backFromNo.addEventListener('click', () => {
+                showStep(step2);
+            });
+
+            resetFromSi.addEventListener('click', () => {
+                detenerTodo();
+                showStep(step1);
+            });
+
+            window.addEventListener('beforeunload', () => {
+                detenerTodo();
+            });
+        })();
+    </script>
+</body>
+</html>
