@@ -15,17 +15,29 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-start: #ffe7f1;
+            --bg-end: #d9f3f0;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-dark: #1e3b41;
+            --primary: #b8e2d8;
+            --primary-dark: #6fa99c;
+            --secondary: #ffe2de;
+            --accent: #f6d5f7;
+            --shadow: 0 30px 60px -15px rgba(30, 60, 50, 0.3);
+            --border-light: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #ffe7f1 0%, #d9f3f0 100%);
+            background: linear-gradient(145deg, var(--bg-start), var(--bg-end));
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
-            margin: 0;
             line-height: 1.5;
-            color: #1e2b2f;
+            color: var(--text-dark);
             transition: background 0.3s ease;
         }
 
@@ -50,15 +62,31 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 40px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 48px;
             padding: 3rem 2.5rem;
-            box-shadow: 0 30px 60px -15px rgba(30, 60, 50, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: var(--shadow);
+            border: var(--border-light);
+            transition: opacity 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
             animation: fadeInUp 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 48px;
+            padding: 2px;
+            background: linear-gradient(145deg, #ffffff80, #ffffff00);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
         .hidden {
@@ -83,7 +111,7 @@
             padding: 2.5rem 2.8rem;
             border-radius: 40px;
             margin-bottom: 2.5rem;
-            color: #1e3b41;
+            color: var(--text-dark);
             box-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.9), 0 10px 20px rgba(0, 30, 20, 0.1);
             white-space: pre-line;
             text-align: left;
@@ -117,39 +145,38 @@
             font-weight: 600;
             color: #1e3b41;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             box-shadow: 0 10px 20px -8px #2c7a6e;
             border: 1px solid rgba(150, 200, 190, 0.6);
             display: inline-block;
             min-width: 180px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);
         }
 
         .btn:hover {
-            background: #f0fdfa;
             transform: scale(1.02);
-            box-shadow: 0 16px 28px -10px #1b6b5e;
+            box-shadow: 0 16px 28px -10px #1b6b5e, 0 0 0 2px rgba(184, 226, 216, 0.5);
             border-color: #8fc5ba;
         }
 
         .btn.si {
-            background: #b8e2d8;
+            background: linear-gradient(145deg, #b8e2d8, #a3d6ca);
             border-color: #6fa99c;
             color: #0f3d37;
-            margin-right: 1rem;
         }
 
         .btn.si:hover {
-            background: #a3d6ca;
+            background: linear-gradient(145deg, #a3d6ca, #8fc5b8);
         }
 
         .btn.no {
-            background: #ffe2de;
+            background: linear-gradient(145deg, #ffe2de, #ffd2cc);
             border-color: #f3aea6;
             color: #772e25;
         }
 
         .btn.no:hover {
-            background: #ffd2cc;
+            background: linear-gradient(145deg, #ffd2cc, #ffc2b8);
         }
 
         .button-group {
@@ -162,19 +189,22 @@
 
         .invitation-details {
             background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
             border-radius: 36px;
             padding: 2.5rem;
             margin: 2rem 0;
             text-align: left;
             border: 1px solid #cceae3;
             font-size: 1.2rem;
+            display: grid;
+            gap: 1.2rem;
         }
 
         .invitation-details p {
-            margin-bottom: 1.2rem;
             display: flex;
             align-items: flex-start;
             gap: 1rem;
+            margin: 0;
         }
 
         .invitation-details strong {
@@ -185,29 +215,30 @@
 
         .invitation-details .highlight {
             background: #fceae3;
-            padding: 0.2rem 0.8rem;
+            padding: 0.2rem 1rem;
             border-radius: 30px;
             display: inline-block;
+            font-weight: 500;
         }
 
         .map-container {
             width: 100%;
-            margin: 2rem 0 0.5rem;
+            margin: 1.5rem 0 0.5rem;
             border-radius: 28px;
             overflow: hidden;
             box-shadow: 0 15px 25px -10px rgba(20, 70, 50, 0.3);
+            aspect-ratio: 4 / 3;
         }
 
         .map-container iframe {
             width: 100%;
-            height: auto;
-            aspect-ratio: 4 / 3;
+            height: 100%;
             border: 0;
             display: block;
         }
 
         .reset {
-            background: #f2e7fe;
+            background: linear-gradient(145deg, #f2e7fe, #e6d4fc);
             border-color: #cdb5e8;
             color: #4a2d70;
             font-size: 1.1rem;
@@ -216,13 +247,38 @@
         }
 
         .reset:hover {
-            background: #e6d4fc;
+            background: linear-gradient(145deg, #e6d4fc, #dac2fa);
         }
 
         .heart {
             color: #e66f7d;
             font-size: 2rem;
             line-height: 1;
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #b8e2d8;
+            border-radius: 50px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: 0.2s;
+            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.85);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .music-control:hover {
+            transform: scale(1.05);
+            border-color: #6fa99c;
         }
 
         @media (max-width: 600px) {
@@ -256,12 +312,16 @@
         <source src="cancion.mp3" type="audio/mpeg">
     </audio>
 
+    <div class="music-control" id="musicToggle" title="Encender / Apagar música">
+        <span>🎵</span> <span id="musicStatus">Activada</span>
+    </div>
+
     <div class="container">
         <div id="step1" class="card">
             <div class="message">
                 <p>Buenoo, si estas leyendo esto es porque te considero una gran amistad y la verdad es que me encantaria que vinieras a mi cumpleaños.</p>
                 <p>Aprecio y valoro mucho los momentos que compartimos sin importar el tiempo o lugar, las emociones que se vivieron fueron unicas e irrepetibles.</p>
-                <p>Muchas gracias por ser parte de mi vida - Sebastian Shulla <span class="heart">❤️</span></p>
+                <p>Muchas gracias por ser parte de mi vida - Shulla <span class="heart">❤️</span></p>
             </div>
             <div style="text-align: center;">
                 <button id="nextBtn" class="btn">Siguiente</button>
@@ -280,14 +340,15 @@
         <div id="step3a" class="card hidden">
             <h2> ¡Perfecto, muchísimas gracias! <br> Con regalo, un chicle aunque sea xD</h2>
             <div class="invitation-details">
-                <p><strong>📅 Día:</strong> <span class="highlight">Viernes 27 de febrero</span> · 6:00 pm</p>
-                <p><strong>📍 Lugar:</strong> Mi casa - AHH Santa Maria Mz L Lote 8 <br> <span style="margin-left: 2.5rem;">(Referencia: Por el comedor- Pasaje 11)</span></p>
+                <p><strong>📅 Día:</strong> <span class="highlight">Sabado 28 de febrero</span> · 6:00 pm</p>
+                <p><strong>📍 Lugar:</strong>Casa de 3 pisos blanca, con venanas azules. Javier prado<br>
+                <span style="margin-left: 2rem;">(Referencia: A 12 casa aprox del tambo puruchuco)</span></p>
                 <p><strong>🎉 Qué habrá:</strong> Comida rica, baile, karaoke, luces, hora loca, rap, y talvez juegos de mesa 👀</p>
                 <p><strong>🚫 Sin alcohol:</strong> Pero con muchas gaseosas, jugos y un pastel increíble 🍰</p>
                 <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d410.1455542087883!2d-76.92464772011324!3d-12.044615488501513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2spe!4v1771964979243!5m2!1ses!2spe" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4659.0384397145035!2d-76.929465!3d-12.042956000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDAyJzM0LjYiUyA3NsKwNTUnNDYuMSJX!5e1!3m2!1ses!2spe!4v1772160974486!5m2!1ses!2spe" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
-                <p style="margin-top: 1.5rem; font-size: 1.2rem; text-align: center; background: #f6d5f7; padding: 0.8rem; border-radius: 40px;">⭐ ¡Te espero para brillar juntos! ⭐</p>
+                <p style="margin-top: 1rem; font-size: 1.2rem; text-align: center; background: #f6d5f7; padding: 0.8rem; border-radius: 40px;">⭐ ¡Te espero para brillar juntos! ⭐</p>
             </div>
             <div style="text-align: center;">
                 <button id="resetFromSi" class="btn reset">← Volver al inicio</button>
@@ -320,10 +381,13 @@
             const resetFromSi = document.getElementById('resetFromSi');
 
             const cancion = document.getElementById('cancionFondo');
+            const musicToggle = document.getElementById('musicToggle');
+            const musicStatus = document.getElementById('musicStatus');
 
             let confetiInterval = null;
             let brillitosInterval = null; 
             let discoActivo = false;
+            let musicaPermitida = false; // para controlar el botón de mute
 
             function showStep(stepToShow) {
                 step1.classList.add('hidden');
@@ -331,11 +395,6 @@
                 step3a.classList.add('hidden');
                 step3b.classList.add('hidden');
                 stepToShow.classList.remove('hidden');
-
-                if (stepToShow !== step3a) {
-                    detenerTodo();
-                } else {
-                }
             }
 
             function detenerTodo() {
@@ -353,6 +412,8 @@
                 }
                 document.body.classList.remove('disco-mode');
                 discoActivo = false;
+                musicaPermitida = false;
+                musicStatus.innerText = 'Desactivada';
             }
 
             function lanzarConfetiAleatorio() {
@@ -386,8 +447,12 @@
                 document.body.classList.add('disco-mode');
                 discoActivo = true;
 
-                cancion.play().catch(error => {
-                    console.log('No se pudo reproducir automáticamente. El usuario debe interactuar primero.');
+                cancion.play().then(() => {
+                    musicaPermitida = true;
+                    musicStatus.innerText = 'Activada';
+                }).catch(error => {
+                    console.log('Autoplay bloqueado. El usuario debe interactuar.');
+                    musicStatus.innerText = 'Desactivada';
                 });
 
                 confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
@@ -396,12 +461,24 @@
 
                 confetiInterval = setInterval(() => {
                     lanzarConfetiAleatorio();
-                }, 800); // cada 0.8 segundos
+                }, 800);
 
                 brillitosInterval = setInterval(() => {
                     lanzarBrillito();
                 }, 600);
             }
+
+            // Control de música manual
+            musicToggle.addEventListener('click', () => {
+                if (cancion.paused) {
+                    cancion.play().then(() => {
+                        musicStatus.innerText = 'Activada';
+                    }).catch(e => console.log('No se pudo reproducir'));
+                } else {
+                    cancion.pause();
+                    musicStatus.innerText = 'Desactivada';
+                }
+            });
 
             nextBtn.addEventListener('click', () => {
                 showStep(step2);
@@ -432,6 +509,4 @@
         })();
     </script>
 </body>
-
 </html>
-
